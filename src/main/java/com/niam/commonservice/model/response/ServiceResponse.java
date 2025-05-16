@@ -1,7 +1,7 @@
 package com.niam.commonservice.model.response;
 
-import com.niam.commonservice.exception.ResultResponseStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.niam.commonservice.exception.ResultResponseStatus;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

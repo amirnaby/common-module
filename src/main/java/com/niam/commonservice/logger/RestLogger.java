@@ -1,5 +1,7 @@
 package com.niam.commonservice.logger;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.niam.commonservice.model.logger.JoinInfo;
 import com.niam.commonservice.model.logger.LogModelDto;
 import com.niam.commonservice.model.response.ResultLevel;
@@ -7,8 +9,6 @@ import com.niam.commonservice.model.response.ServiceResponse;
 import com.niam.commonservice.producer.KafkaProducerService;
 import com.niam.commonservice.utils.ObjectConverter;
 import com.niam.commonservice.utils.Utils;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

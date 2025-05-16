@@ -1,9 +1,9 @@
 package com.niam.commonservice.model.logger;
 
-import com.niam.commonservice.utils.CustomLocalDateTimeDeserializer;
-import com.niam.commonservice.utils.CustomLocalDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.niam.commonservice.utils.CustomLocalDateTimeDeserializer;
+import com.niam.commonservice.utils.CustomLocalDateTimeSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
