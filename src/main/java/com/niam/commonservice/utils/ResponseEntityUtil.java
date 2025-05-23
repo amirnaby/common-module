@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class ResponseEntityUtil {
     private final MessageUtil messageUtil;
 
-    public org.springframework.http.ResponseEntity<ServiceResponse> ok(Object data) {
+    public ResponseEntity<ServiceResponse> ok(Object data) {
         ServiceResponse response = new ServiceResponse();
         response.setData(data);
         ResultResponse resultResponse = new ResultResponse();
@@ -29,13 +29,13 @@ public class ResponseEntityUtil {
         return ResponseEntity.ok(response);
     }
 
-    public org.springframework.http.ResponseEntity<ServiceResponse> ok() {
+    public ResponseEntity<ServiceResponse> ok() {
         ServiceResponse response = new ServiceResponse();
         ResultResponse resultResponse = new ResultResponse();
         return getServiceResponseResponseEntity(response, resultResponse);
     }
 
-    private org.springframework.http.ResponseEntity<ServiceResponse> badRequest(Object data) {
+    private ResponseEntity<ServiceResponse> badRequest(Object data) {
         ServiceResponse response = new ServiceResponse();
         response.setData(data);
         ResultResponse resultResponse = new ResultResponse();

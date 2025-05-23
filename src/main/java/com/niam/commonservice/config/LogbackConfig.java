@@ -15,22 +15,22 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class LogbackConfig {
 
-    @Value("${edm.logging-file.enable}")
+    @Value("${common.logging-file.enable}")
     private boolean enableFileLogging;
 
-    @Value("${edm.logging-file.path}")
+    @Value("${common.logging-file.path}")
     private String logDirectory;
 
-    @Value("${edm.logging-file.max-file-size}")
+    @Value("${common.logging-file.max-file-size}")
     private String maxFileSize;
 
-    @Value("${edm.logging-file.total-size-cap}")
+    @Value("${common.logging-file.total-size-cap}")
     private String totalSizeCap;
 
-    @Value("${edm.logging-file.max-history}")
+    @Value("${common.logging-file.max-history}")
     private String maxHistory;
 
-    @Value("${edm.logging-pattern.file}")
+    @Value("${common.logging-pattern.file}")
     private String filePattern;
 
     @Bean
@@ -44,12 +44,12 @@ public class LogbackConfig {
         RollingFileAppender<ILoggingEvent> fileAppender = new RollingFileAppender<>();
         fileAppender.setContext(context);
         fileAppender.setName("RollingFile");
-        fileAppender.setFile(logDirectory + "/edm-logger.log");
+        fileAppender.setFile(logDirectory + "/logger.log");
 
         SizeAndTimeBasedRollingPolicy<ILoggingEvent> sizeAndTimePolicy = new SizeAndTimeBasedRollingPolicy<>();
         sizeAndTimePolicy.setContext(context);
         sizeAndTimePolicy.setMaxFileSize(FileSize.valueOf(maxFileSize));
-        sizeAndTimePolicy.setFileNamePattern(logDirectory + "/archived/edm-logger-%d{yyyy-MM-dd}.%i.log");
+        sizeAndTimePolicy.setFileNamePattern(logDirectory + "/archived/logger-%d{yyyy-MM-dd}.%i.log");
         sizeAndTimePolicy.setMaxHistory(Integer.parseInt(maxHistory));
         sizeAndTimePolicy.setTotalSizeCap(FileSize.valueOf(totalSizeCap));
         sizeAndTimePolicy.setParent(fileAppender);
