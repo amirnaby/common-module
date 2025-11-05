@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class BusinessExceptionHandler extends ResponseEntityExceptionHandler {
     private final MessageUtil messageUtil;
+
     public BusinessExceptionHandler(MessageUtil messageUtil) {
         this.messageUtil = messageUtil;
     }
