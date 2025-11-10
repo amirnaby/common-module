@@ -18,9 +18,13 @@ public enum ResultResponseStatus {
     SMALLER_MODIFY_DATE(400, 2010004, "smaller.modify.date"),
     DUPLICATION_OPERATION(400, 1020008, "duplication.operation"),
     DUPLICATE_TRANSACTION(400, 1020008, "duplicate.transaction"),
+    DUPLICATE_ENTITY(400, 1020008, "duplicate.entity"),
     CREATE_DATE_IS_NULL(400, 1020004, "create.date.is.null"),
     MODIFY_DATE_IS_NULL(400, 1020004, "modify.date.is.null"),
     ENTITY_NOT_FOUND(400, 2010002, "entity.not.found"),
+    ENTITY_HAS_DEPENDENCIES(400, 2010002, "entity.has.dependencies"),
+    //business
+    OPERATOR_MACHINE_ALREADY_UNASSIGNED(400, 2010002, "operator.machine.already.unassigned"),
     //user management
     INVALID_SSO_TOKEN(401, 1001, "invalid.sso.token"),
     ACCESS_DENIED(403, 1002, "access.denied"),

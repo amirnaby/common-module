@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 @Setter
@@ -14,8 +13,6 @@ import java.io.Serializable;
 @ToString
 @NoArgsConstructor
 public class ResultResponse implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 6091567334208093240L;
     private Integer responseCode;
     private Integer reasonCode;
     private String responseDescription;
