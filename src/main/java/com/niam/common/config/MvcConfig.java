@@ -1,7 +1,6 @@
 package com.niam.common.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
@@ -26,8 +25,6 @@ import java.util.Locale;
 @RequiredArgsConstructor
 public class MvcConfig implements WebMvcConfigurer {
     private final MessageSource messageSource;
-    @Value("${security.cors.allowed-host}")
-    private String allowedHost;
 
     @Override
     public void configureDefaultServletHandling(final DefaultServletHandlerConfigurer configurer) {
@@ -44,13 +41,6 @@ public class MvcConfig implements WebMvcConfigurer {
         final LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("lang");
         registry.addInterceptor(localeChangeInterceptor);
-    }
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOriginPatterns(allowedHost)
-                .allowedMethods("*");
     }
 
     @Bean
