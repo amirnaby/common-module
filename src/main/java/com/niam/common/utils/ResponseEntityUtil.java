@@ -5,6 +5,7 @@ import com.niam.common.model.response.ResultLevel;
 import com.niam.common.model.response.ResultResponse;
 import com.niam.common.model.response.ServiceResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -13,26 +14,38 @@ import org.springframework.stereotype.Component;
 public class ResponseEntityUtil {
     private final MessageUtil messageUtil;
 
-    public ResponseEntity<ServiceResponse> ok(Object data) {
-        ServiceResponse response = new ServiceResponse();
-        response.setData(data);
-        ResultResponse resultResponse = new ResultResponse();
-        return getServiceResponseResponseEntity(response, resultResponse);
-    }
-
-    private ResponseEntity<ServiceResponse> getServiceResponseResponseEntity(ServiceResponse response, ResultResponse resultResponse) {
+    private ResponseEntity<ServiceResponse> getServiceResponseResponseEntity(ServiceResponse response,
+                                                                             ResultResponse resultResponse, HttpHeaders headers) {
         resultResponse.setResponseCode(ResultResponseStatus.SUCCESS.getResponseCode());
         resultResponse.setReasonCode(ResultResponseStatus.SUCCESS.getReasonCode());
         resultResponse.setResponseDescription(messageUtil.getMessage(ResultResponseStatus.SUCCESS.getDescription()));
         resultResponse.setLevel(ResultLevel.INFO);
         response.setResultResponse(resultResponse);
+
+        if (headers != null) {
+            return ResponseEntity.ok().headers(headers).body(response);
+        }
         return ResponseEntity.ok(response);
     }
 
     public ResponseEntity<ServiceResponse> ok() {
         ServiceResponse response = new ServiceResponse();
         ResultResponse resultResponse = new ResultResponse();
-        return getServiceResponseResponseEntity(response, resultResponse);
+        return getServiceResponseResponseEntity(response, resultResponse, null);
+    }
+
+    public ResponseEntity<ServiceResponse> ok(Object data) {
+        ServiceResponse response = new ServiceResponse();
+        response.setData(data);
+        ResultResponse resultResponse = new ResultResponse();
+        return getServiceResponseResponseEntity(response, resultResponse, null);
+    }
+
+    public ResponseEntity<ServiceResponse> ok(Object data, HttpHeaders headers) {
+        ServiceResponse response = new ServiceResponse();
+        response.setData(data);
+        ResultResponse resultResponse = new ResultResponse();
+        return getServiceResponseResponseEntity(response, resultResponse, headers);
     }
 
     private ResponseEntity<ServiceResponse> badRequest(Object data) {

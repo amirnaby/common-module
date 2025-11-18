@@ -14,4 +14,11 @@ public class BusinessException extends RuntimeException {
         this.reasonCode = reasonCode;
         this.responseDescription = responseDescription;
     }
+
+    public BusinessException(String responseDescription) {
+        super(responseDescription);
+        this.responseCode = 500;
+        this.reasonCode = 500;
+        this.responseDescription = responseDescription;
+    }
 }
