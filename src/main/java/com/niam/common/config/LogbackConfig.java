@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class LogbackConfig {
-
     @Value("${common.logging-file.enable}")
     private boolean enableFileLogging;
 
