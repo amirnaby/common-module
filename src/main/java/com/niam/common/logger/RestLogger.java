@@ -53,12 +53,16 @@ public class RestLogger {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
                 .currentRequestAttributes()).getRequest();
         String httpMethod = request.getMethod();
+        Object[] sanitizedArgs = Arrays.stream(joinPoint.getArgs())
+                .map(objectConverter::sanitize)
+                .toArray();
 
         JoinInfo joinInfo = JoinInfo.builder()
                 .methodName(joinPoint.getSignature().getName())
                 .methodType(httpMethod)
                 .className(joinPoint.getTarget().getClass().getName())
-                .methodArgs(joinPoint.getArgs()).build();
+                .methodArgs(sanitizedArgs)
+                .build();
 
         logger.info("Executing {}.{}() with arguments: {}", joinInfo.getClassName(), joinInfo.getMethodName(),
                 Arrays.toString(joinInfo.getMethodArgs()));
@@ -82,7 +86,7 @@ public class RestLogger {
         String responseBody;
 
         try {
-            requestBody = objectConverter.convertToJsonString(Arrays.asList(joinPoint.getArgs()).get(0));
+            requestBody = objectConverter.convertToJsonString(Arrays.asList(joinPoint.getArgs()).getFirst());
         } catch (Exception e) {
             requestBody = Arrays.toString(joinPoint.getArgs());
         }

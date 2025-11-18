@@ -43,11 +43,15 @@ public class AuditableLogger {
     @Around("@annotation(com.niam.common.annotation.Auditable)")
     public Object logRestControllerExecution(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
+        Object[] sanitizedArgs = Arrays.stream(joinPoint.getArgs())
+                .map(objectConverter::sanitize)
+                .toArray();
 
         JoinInfo joinInfo = JoinInfo.builder()
                 .methodName(joinPoint.getSignature().getName())
                 .className(joinPoint.getTarget().getClass().getName())
-                .methodArgs(joinPoint.getArgs()).build();
+                .methodArgs(sanitizedArgs)
+                .build();
 
         if (!joinInfo.getMethodName().equals("listen") && !joinInfo.getMethodName().equals("dlqListener")) {
             logger.info("Executing {}.{}() with arguments: {}", joinInfo.getClassName(), joinInfo.getMethodName(),
@@ -73,7 +77,7 @@ public class AuditableLogger {
         Utils.TrackingNumbers trackingNumbers = Utils.getTrackingNumbers(joinPoint);
         String requestBody;
         try {
-            requestBody = objectConverter.convertToJsonString(Arrays.asList(joinPoint.getArgs()).get(0));
+            requestBody = objectConverter.convertToJsonString(Arrays.asList(joinPoint.getArgs()).getFirst());
         } catch (Exception e) {
             requestBody = Arrays.toString(joinPoint.getArgs());
         }

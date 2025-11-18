@@ -55,9 +55,13 @@ public class RestExceptionLogger {
         long startedTime = startTime.get();
         long executionTime = endTime - startedTime;
         startTime.remove();
+        Object[] sanitizedArgs = Arrays.stream(joinPoint.getArgs())
+                .map(objectConverter::sanitize)
+                .toArray();
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
                 .currentRequestAttributes()).getRequest();
+
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder
                 .currentRequestAttributes()).getResponse();
         String methodType = request.getMethod();
@@ -65,9 +69,9 @@ public class RestExceptionLogger {
 
         String requestString;
         try {
-            requestString = objectConverter.convertToJsonString(Arrays.asList(joinPoint.getArgs()).get(0));
+            requestString = objectConverter.convertToJsonString(Arrays.asList(sanitizedArgs).getFirst());
         } catch (Exception e) {
-            requestString = Arrays.toString(joinPoint.getArgs());
+            requestString = Arrays.toString(sanitizedArgs);
         }
         Utils.TrackingNumbers trackingNumbers = Utils.getTrackingNumbers(joinPoint);
         Integer httpStatus = response != null ? response.getStatus() : -1;

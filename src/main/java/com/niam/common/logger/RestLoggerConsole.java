@@ -2,6 +2,7 @@ package com.niam.common.logger;
 
 
 import com.niam.common.model.logger.JoinInfo;
+import com.niam.common.utils.ObjectConverter;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ import java.util.Arrays;
 @Profile("!kafka-logger")
 public class RestLoggerConsole {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final ObjectConverter objectConverter;
 
     @Around("execution(* com.niam.*.controller.*.*(..))")
     public Object logRestControllerExecution(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -31,12 +33,16 @@ public class RestLoggerConsole {
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         String httpMethod = request.getMethod();
+        Object[] sanitizedArgs = Arrays.stream(joinPoint.getArgs())
+                .map(objectConverter::sanitize)
+                .toArray();
 
         JoinInfo joinInfo = JoinInfo.builder()
                 .methodName(joinPoint.getSignature().getName())
                 .methodType(httpMethod)
                 .className(joinPoint.getTarget().getClass().getName())
-                .methodArgs(joinPoint.getArgs()).build();
+                .methodArgs(sanitizedArgs)
+                .build();
 
         logger.info("Executing {}.{}() with arguments: {}", joinInfo.getClassName(), joinInfo.getMethodName(),
                 Arrays.toString(joinInfo.getMethodArgs()));

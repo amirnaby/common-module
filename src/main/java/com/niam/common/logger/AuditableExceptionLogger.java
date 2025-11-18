@@ -56,13 +56,16 @@ public class AuditableExceptionLogger {
         long startedTime = startTime.get();
         long executionTime = endTime - startedTime;
         startTime.remove();
+        Object[] sanitizedArgs = Arrays.stream(joinPoint.getArgs())
+                .map(objectConverter::sanitize)
+                .toArray();
 
         String methodName = joinPoint.getSignature().getName();
         String requestString;
         try {
-            requestString = objectConverter.convertToJsonString(Arrays.asList(joinPoint.getArgs()).get(0));
+            requestString = objectConverter.convertToJsonString(Arrays.asList(sanitizedArgs).getFirst());
         } catch (Exception e) {
-            requestString = Arrays.toString(joinPoint.getArgs());
+            requestString = Arrays.toString(sanitizedArgs);
         }
         Utils.TrackingNumbers trackingNumbers = Utils.getTrackingNumbers(joinPoint);
 
