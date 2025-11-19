@@ -5,14 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GenericDtoMapper {
-
     public static <T> void copyNonNullProperties(Object source, T target, String... ignoreFields) {
         List<String> ignoreList = Arrays.asList(ignoreFields);
-
         for (Field field : source.getClass().getDeclaredFields()) {
             if (ignoreList.contains(field.getName()))
                 continue;
-
             try {
                 field.setAccessible(true);
                 Object value = field.get(source);
