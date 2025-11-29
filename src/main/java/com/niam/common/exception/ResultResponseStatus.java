@@ -21,7 +21,7 @@ public enum ResultResponseStatus {
     DUPLICATE_ENTITY(400, 1020008, "duplicate.entity"),
     CREATE_DATE_IS_NULL(400, 1020004, "create.date.is.null"),
     MODIFY_DATE_IS_NULL(400, 1020004, "modify.date.is.null"),
-    ENTITY_NOT_FOUND(400, 2010002, "entity.not.found"),
+    ENTITY_NOT_FOUND(404, 2010002, "entity.not.found"),
     ENTITY_HAS_DEPENDENCIES(400, 2010002, "entity.has.dependencies"),
     //business
     OPERATOR_MACHINE_ALREADY_UNASSIGNED(400, 2010002, "operator.machine.already.unassigned"),

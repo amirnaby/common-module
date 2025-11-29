@@ -6,6 +6,6 @@ public class EntityNotFoundException extends BusinessException {
     }
 
     public EntityNotFoundException(String responseDescription) {
-        super(400, 400, responseDescription);
+        super(404, 400, responseDescription);
     }
 }
