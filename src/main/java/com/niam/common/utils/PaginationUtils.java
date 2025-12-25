@@ -24,6 +24,6 @@ public class PaginationUtils {
         String pageSortType = requestParams.remove("pageSortType") == null
                 ? "asc" : requestParams.remove("pageSortType").toString();
 
-        return PageRequest.of(pageNo, pageSize, Sort.by(pageSortType.toUpperCase(), pageSortField));
+        return PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.valueOf(pageSortType.toUpperCase()), pageSortField));
     }
 }
